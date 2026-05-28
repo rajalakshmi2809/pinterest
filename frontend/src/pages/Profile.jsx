@@ -1,57 +1,40 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { fetchProfile } from '../services/authService.js';
-import Loader from '../components/Loader.jsx';
-
 const Profile = () => {
-  const params = useParams();
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchProfile().then((res) => {
-      setProfile(res.data);
-      setLoading(false);
-    }).catch(() => setLoading(false));
-  }, [params.userId]);
-
-  if (loading) return <Loader message="Loading profile…" />;
+  const pins = [
+    { title: 'Modern Desert Sanctuary', image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80' },
+    { title: 'Fluid Dynamics in Red', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80' },
+    { title: 'Timeless Precision', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80' },
+    { title: 'Morning Reflection', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=400&q=80' },
+    { title: 'Minimal Workspace', image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=400&q=80' },
+    { title: 'Urban Geometry', image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=400&q=80' },
+  ];
 
   return (
-    <section className="space-y-8">
-      <div className="rounded-4xl border border-slate-800 bg-slate-900/80 p-8 shadow-xl shadow-slate-950/40">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-5">
-            <div className="flex h-24 w-24 items-center justify-center rounded-[2.5rem] bg-cyan-500/15 text-4xl font-semibold text-cyan-300">
-              {profile?.username?.charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <h1 className="text-4xl font-semibold text-slate-100">{profile?.username}</h1>
-              <p className="mt-2 text-slate-400">{profile?.bio}</p>
-            </div>
-          </div>
-          <div className="rounded-3xl border border-slate-800 bg-slate-950/80 px-6 py-5 text-sm text-slate-300">
-            <p className="text-slate-100">Followers</p>
-            <p className="mt-2 text-3xl font-semibold text-slate-100">{profile?.followers?.length || 0}</p>
-          </div>
-        </div>
+    <div className="mx-auto flex max-w-[1500px] flex-col items-center px-5 py-10">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=220&q=80" alt="Profile" className="mb-6 h-44 w-44 rounded-full border-2 border-gray-700 object-cover" />
+      <h1 className="mb-1 text-5xl font-bold tracking-tight text-white">Alex Rivet</h1>
+      <p className="text-gray-400 mb-6 font-medium">@alexrivet_design</p>
+      
+      <div className="flex gap-4 mb-12">
+        <button className="bg-[#2b2b2b] hover:bg-[#383838] text-white font-bold py-3 px-6 rounded-full transition-colors">Edit Profile</button>
+        <button className="bg-[#2b2b2b] hover:bg-[#383838] text-white font-bold py-3 px-6 rounded-full transition-colors">Share</button>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-8 shadow-xl shadow-slate-950/30">
-          <h2 className="text-2xl font-semibold text-slate-100">About</h2>
-          <p className="mt-3 text-slate-400">A creative portfolio builder for designers, photographers and modern creators to save inspirations and moodboards.</p>
-        </div>
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-8 shadow-xl shadow-slate-950/30">
-          <h2 className="text-2xl font-semibold text-slate-100">Activity</h2>
-          <div className="mt-4 space-y-3 text-sm text-slate-400">
-            <p>Uploaded posts: 0</p>
-            <p>Saved boards: 0</p>
-            <p>Recent likes: 0</p>
-          </div>
-        </div>
+      <div className="mb-10 flex w-full justify-center gap-8 border-b border-[#7a4d4d]">
+        <button className="text-white font-bold pb-3 border-b-2 border-white px-2 text-lg">Created</button>
+        <button className="text-gray-400 font-bold pb-3 hover:text-white transition-colors px-2 text-lg border-b-2 border-transparent">Saved</button>
       </div>
-    </section>
+
+      <div className="grid w-full grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-6">
+        {pins.map((pin) => (
+          <div key={pin.title} className="group flex cursor-pointer flex-col gap-3">
+            <div className="overflow-hidden rounded-2xl bg-[#202020]">
+              <img src={pin.image} alt={pin.title} className="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+            </div>
+            <p className="truncate px-1 text-base font-bold text-white">{pin.title}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
